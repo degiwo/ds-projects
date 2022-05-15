@@ -1,4 +1,8 @@
 {
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "editor.defaultFormatter": null,
+    "python.formatting.autopep8Path": "",
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "80"],
 }

@@ -2,17 +2,31 @@
 # in various ways with train data
 
 import joblib
+from numpy import ndarray
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_predict
-from sklearn.metrics import confusion_matrix, precision_score, recall_score, \
-    f1_score, precision_recall_curve, roc_curve, roc_auc_score
+from sklearn.metrics import (
+    confusion_matrix,
+    precision_score,
+    recall_score,
+    f1_score,
+    precision_recall_curve,
+    roc_curve,
+    roc_auc_score,
+)
 from dagshub import DAGsHubLogger
 
 from config import PATH_DATA_FOLDER, PATH_MODEL_FOLDER, PATH_LOGS_FOLDER
 
 
-def plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
+def plot_precision_recall_vs_threshold(
+    precisions: ndarray, recalls: ndarray, thresholds: ndarray
+) -> None:
+    """
+    input parameters should be output from
+    sklearn.metrics.precision_recall_curve
+    """
     plt.plot(thresholds, precisions[:-1], "b--", label="Precision")
     plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
     plt.legend(loc="center right", fontsize=16)
@@ -20,7 +34,11 @@ def plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
     plt.grid(True)
 
 
-def plot_roc_curve(fpr, tpr, label=None):
+def plot_roc_curve(fpr: ndarray, tpr: ndarray, label=None) -> None:
+    """
+    input parameters should be output from
+    sklearn.metrics.roc_curve
+    """
     plt.plot(fpr, tpr, linewidth=2, label=label)
     plt.plot([0, 1], [0, 1], "k--")
     plt.axis([0, 1, 0, 1])
@@ -31,8 +49,7 @@ def plot_roc_curve(fpr, tpr, label=None):
 
 if __name__ == "__main__":
     logger = DAGsHubLogger(
-        metrics_path=PATH_LOGS_FOLDER + "metrics.csv",
-        should_log_hparams=False
+        metrics_path=PATH_LOGS_FOLDER + "metrics.csv", should_log_hparams=False
     )
     pipeline = joblib.load(PATH_MODEL_FOLDER + "pipeline.pkl")
     # decision_function vs. predict_proba
@@ -68,7 +85,7 @@ if __name__ == "__main__":
 
     # New threshold
     threshold_new = 0.4  # -0.71
-    pred_new = (pred_scores >= threshold_new)
+    pred_new = pred_scores >= threshold_new
     print(f"Precision score (new thrsh): {precision_score(y_train, pred_new)}")
     logger.log_metrics(train_precision=precision_score(y_train, pred_cv))
     print(f"Recall score (new thrsh): {recall_score(y_train, pred_new)}")

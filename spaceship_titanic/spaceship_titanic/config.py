@@ -11,7 +11,7 @@ COLUMN_TOTAL_BILL = [
     "FoodCourt",
     "ShoppingMall",
     "Spa",
-    "VRDeck"
+    "VRDeck",
 ]
 COLUMN_IMPUTE = [
     "Age",
@@ -19,12 +19,6 @@ COLUMN_IMPUTE = [
     "FoodCourt",
     "ShoppingMall",
     "Spa",
-    "VRDeck"
+    "VRDeck",
 ]
-COLUMN_ONEHOT = [
-    "HomePlanet",
-    "CryoSleep",
-    "Destination",
-    "Age",
-    "VIP"
-]
+COLUMN_ONEHOT = ["HomePlanet", "CryoSleep", "Destination", "Age", "VIP"]
