@@ -33,7 +33,7 @@ In this competition your task is to predict whether a passenger was transported 
 
     data/original_data.csv
          |
-         | split_train.csv
+         | split_train.py
          |
          v
     data/train.csv, data/test.csv
