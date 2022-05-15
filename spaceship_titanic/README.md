@@ -31,9 +31,19 @@ In this competition your task is to predict whether a passenger was transported 
 
 ## Pipeline
 
-    data/original_data.csv
-         |
-         | split_train.py
-         |
-         v
-    data/train.csv, data/test.csv
+            data/original_data.csv
+                     |
+                     | split_train.py
+                     |
+                     v
+    data/train.csv         data/test.csv
+        |                       |
+        | train_model.py        |
+        |                       |
+        v                       |
+    model/pipeline.pkl          |
+          \                     |
+            \ evaluate_model.py |
+              \                 |
+                v               v
+                     metrics
