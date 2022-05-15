@@ -9,6 +9,7 @@ PATH_LOGS_FOLDER = "./spaceship_titanic/logs/"
 FILE_NAME_ORIGINAL_DATA = "original_data.csv"
 FILE_NAME_TRAIN_DATA = "train.csv"
 FILE_NAME_TEST_DATA = "test.csv"
+FILE_NAME_EVALUATION_DATA = "evaluation_data.csv"
 FILE_NAME_MODEL_PIPELINE = "pipeline.pkl"
 
 # column names
