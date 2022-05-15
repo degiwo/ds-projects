@@ -7,8 +7,9 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, \
     f1_score, precision_recall_curve, roc_curve, roc_auc_score
+from dagshub import DAGsHubLogger
 
-from config import PATH_DATA_FOLDER, PATH_MODEL_FOLDER
+from config import PATH_DATA_FOLDER, PATH_MODEL_FOLDER, PATH_LOGS_FOLDER
 
 
 def plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
@@ -29,6 +30,10 @@ def plot_roc_curve(fpr, tpr, label=None):
 
 
 if __name__ == "__main__":
+    logger = DAGsHubLogger(
+        metrics_path=PATH_LOGS_FOLDER + "metrics.csv",
+        should_log_hparams=False
+    )
     pipeline = joblib.load(PATH_MODEL_FOLDER + "pipeline.pkl")
     # decision_function vs. predict_proba
     if hasattr(pipeline, "decision_function"):
@@ -65,17 +70,25 @@ if __name__ == "__main__":
     threshold_new = 0.4  # -0.71
     pred_new = (pred_scores >= threshold_new)
     print(f"Precision score (new thrsh): {precision_score(y_train, pred_new)}")
+    logger.log_metrics(train_precision=precision_score(y_train, pred_cv))
     print(f"Recall score (new thrsh): {recall_score(y_train, pred_new)}")
+    logger.log_metrics(train_recall=recall_score(y_train, pred_cv))
     print(f"F1 score (new thrsh): {f1_score(y_train, pred_new)}")
+    logger.log_metrics(train_f1=f1_score(y_train, pred_cv))
 
     # ROC curve
     fpr, tpr, thresh = roc_curve(y_train, pred_scores)
     plot_roc_curve(fpr, tpr)
     plt.title(f"AUC: {roc_auc_score(y_train, pred_scores)}")
     plt.show()
+    logger.log_metrics(train_auc=roc_auc_score(y_train, pred_scores))
 
     # test data
     test_data = pd.read_csv(PATH_DATA_FOLDER + "test.csv")
     X_test = test_data.iloc[:, :-1]
     y_test = test_data.iloc[:, -1]
     print(f"Testing score: {pipeline.score(X_test, y_test)}")
+    logger.log_metrics(test_score=pipeline.score(X_test, y_test))
+
+    logger.save()
+    logger.close()

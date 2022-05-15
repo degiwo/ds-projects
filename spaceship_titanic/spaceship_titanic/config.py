@@ -2,6 +2,7 @@
 
 PATH_DATA_FOLDER = "./spaceship_titanic/data/"
 PATH_MODEL_FOLDER = "./spaceship_titanic/model/"
+PATH_LOGS_FOLDER = "./spaceship_titanic/logs/"
 
 COLUMN_TARGET = "Transported"
 COLUMN_TOTAL_BILL = [
