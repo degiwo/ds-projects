@@ -1,7 +1,8 @@
 # Execute this script to train the model
 
-import pandas as pd
 import joblib
+
+import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
@@ -12,6 +13,8 @@ from config import (
     PATH_DATA_FOLDER,
     PATH_MODEL_FOLDER,
     PATH_LOGS_FOLDER,
+    FILE_NAME_TRAIN_DATA,
+    FILE_NAME_MODEL_PIPELINE,
     COLUMN_ONEHOT,
 )
 
@@ -21,7 +24,7 @@ if __name__ == "__main__":
         hparams_path=PATH_LOGS_FOLDER + "params.yml", should_log_metrics=False
     )
 
-    train_data = pd.read_csv(PATH_DATA_FOLDER + "train.csv")
+    train_data = pd.read_csv(PATH_DATA_FOLDER + FILE_NAME_TRAIN_DATA)
     X_train = train_data.iloc[:, :-1]
     y_train = train_data.iloc[:, -1]
 
@@ -41,6 +44,6 @@ if __name__ == "__main__":
     pipeline.fit(X_train, y_train)
     print(f"Training score: {pipeline.score(X_train, y_train)}")
 
-    joblib.dump(pipeline, PATH_MODEL_FOLDER + "pipeline.pkl")
+    joblib.dump(pipeline, PATH_MODEL_FOLDER + FILE_NAME_MODEL_PIPELINE)
     logger.save()
     logger.close()

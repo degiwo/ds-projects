@@ -2,6 +2,7 @@
 # in various ways with train data
 
 import joblib
+
 from numpy import ndarray
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,7 +18,14 @@ from sklearn.metrics import (
 )
 from dagshub import DAGsHubLogger
 
-from config import PATH_DATA_FOLDER, PATH_MODEL_FOLDER, PATH_LOGS_FOLDER
+from config import (
+    PATH_DATA_FOLDER,
+    PATH_MODEL_FOLDER,
+    PATH_LOGS_FOLDER,
+    FILE_NAME_MODEL_PIPELINE,
+    FILE_NAME_TRAIN_DATA,
+    FILE_NAME_TEST_DATA,
+)
 
 
 def plot_precision_recall_vs_threshold(
@@ -51,7 +59,7 @@ if __name__ == "__main__":
     logger = DAGsHubLogger(
         metrics_path=PATH_LOGS_FOLDER + "metrics.csv", should_log_hparams=False
     )
-    pipeline = joblib.load(PATH_MODEL_FOLDER + "pipeline.pkl")
+    pipeline = joblib.load(PATH_MODEL_FOLDER + FILE_NAME_MODEL_PIPELINE)
     # decision_function vs. predict_proba
     if hasattr(pipeline, "decision_function"):
         method = "decision_function"
@@ -59,7 +67,7 @@ if __name__ == "__main__":
         method = "predict_proba"
 
     # train data
-    train_data = pd.read_csv(PATH_DATA_FOLDER + "train.csv")
+    train_data = pd.read_csv(PATH_DATA_FOLDER + FILE_NAME_TRAIN_DATA)
     X_train = train_data.iloc[:, :-1]
     y_train = train_data.iloc[:, -1]
 
@@ -101,7 +109,7 @@ if __name__ == "__main__":
     logger.log_metrics(train_auc=roc_auc_score(y_train, pred_scores))
 
     # test data
-    test_data = pd.read_csv(PATH_DATA_FOLDER + "test.csv")
+    test_data = pd.read_csv(PATH_DATA_FOLDER + FILE_NAME_TEST_DATA)
     X_test = test_data.iloc[:, :-1]
     y_test = test_data.iloc[:, -1]
     print(f"Testing score: {pipeline.score(X_test, y_test)}")
