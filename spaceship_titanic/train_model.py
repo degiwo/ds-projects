@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import OneHotEncoder
 from dagshub import DAGsHubLogger
 
-from config import (
+from spaceship_titanic.config import (
     PATH_DATA_FOLDER,
     PATH_MODEL_FOLDER,
     PATH_LOGS_FOLDER,

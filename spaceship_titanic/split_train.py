@@ -3,7 +3,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from config import (
+from spaceship_titanic.config import (
     PATH_DATA_FOLDER,
     FILE_NAME_ORIGINAL_DATA,
     FILE_NAME_TRAIN_DATA,

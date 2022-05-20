@@ -5,7 +5,7 @@ from numpy import ndarray
 
 import pandas as pd
 
-from config import (
+from spaceship_titanic.config import (
     PATH_MODEL_FOLDER,
     FILE_NAME_MODEL_PIPELINE,
     FILE_NAME_EVALUATION_DATA,
