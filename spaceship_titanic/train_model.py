@@ -17,10 +17,12 @@ from spaceship_titanic.config import (
     FILE_NAME_MODEL_PIPELINE,
     COLUMN_ONEHOT,
 )
+from spaceship_titanic.logger import logger
 
 
 if __name__ == "__main__":
-    logger = DAGsHubLogger(
+    logger.info("train_model.py script started")
+    dagshub_logger = DAGsHubLogger(
         hparams_path=PATH_LOGS_FOLDER + "params.yml", should_log_metrics=False
     )
 
@@ -33,17 +35,20 @@ if __name__ == "__main__":
             ("one-hot", OneHotEncoder(handle_unknown="ignore"), COLUMN_ONEHOT),
         ]
     )
-    logger.log_hyperparams(preprocess_1="OneHotEncoder")
+    dagshub_logger.log_hyperparams(preprocess_1="OneHotEncoder")
     pipeline = Pipeline(
         [
             ("prep", preprocessor),
             ("model", RandomForestClassifier(random_state=123)),
         ]
     )
-    logger.log_hyperparams(model="Random Forest")
+    dagshub_logger.log_hyperparams(model="Random Forest")
     pipeline.fit(X_train, y_train)
-    print(f"Training score: {pipeline.score(X_train, y_train)}")
+    logger.info("Model successfully trained")
+    logger.debug(f"Training score: {pipeline.score(X_train, y_train)}")
 
     joblib.dump(pipeline, PATH_MODEL_FOLDER + FILE_NAME_MODEL_PIPELINE)
-    logger.save()
-    logger.close()
+    dagshub_logger.save()
+    dagshub_logger.close()
+    logger.info("train_model.py script ended")
+    logger.info("###########################################")

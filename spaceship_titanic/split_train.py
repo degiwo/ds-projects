@@ -17,10 +17,12 @@ def read_original_data() -> pd.DataFrame:
     try:
         df = pd.read_csv(data_path)
         logger.info("Original data successfully read")
+        logger.debug(f"Original data shape: {df.shape}")
         return df
     except FileNotFoundError:
         logger.error(
-            f"Original data not found, please check if {data_path} exists"
+            f"Original data not found, please check if {data_path} exists",
+            exc_info=True,
         )
 
 
@@ -35,9 +37,12 @@ def split_and_save(data: pd.DataFrame) -> None:
         train_data.to_csv(PATH_DATA_FOLDER + FILE_NAME_TRAIN_DATA)
         test_data.to_csv(PATH_DATA_FOLDER + FILE_NAME_TEST_DATA)
         logger.info("Train and test data successfully splitted")
+        logger.debug(f"Train data shape: {train_data.shape}")
+        logger.debug(f"Test data shape: {test_data.shape}")
     except TypeError:
         logger.error(
-            f"Input data is {type(data)}, but DataFrame is needed to split"
+            f"Input data is {type(data)}, but DataFrame is needed to split",
+            exc_info=True,
         )
 
 

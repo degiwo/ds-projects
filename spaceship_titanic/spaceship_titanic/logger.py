@@ -4,10 +4,11 @@ import logging
 
 from spaceship_titanic.config import PATH_LOGS_FOLDER
 
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-log_handler = logging.FileHandler(PATH_LOGS_FOLDER + "split_train.log")
+log_handler = logging.FileHandler(PATH_LOGS_FOLDER + "spaceship_titanic.log")
 log_formatter = logging.Formatter(
     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
