@@ -4,5 +4,9 @@
     "editor.defaultFormatter": null,
     "python.formatting.autopep8Path": "",
     "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--line-length", "80"],
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "80"
+    ],
+    "dvc.dvcPath": "dvc",
 }
