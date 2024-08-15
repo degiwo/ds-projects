@@ -19,22 +19,19 @@ COLS_USED_BY_MODEL = []
 
 class Dataset:
     """explicitly represent the parameters that determine the data"""
-    def __init__(self, drop_na: bool=False, num_samples: Optional[int]=None) -> None:
-        self.drop_na = drop_na
-        self.num_samples = num_samples
+    def __init__(self) -> None:
+        self.raw_data = self.load_raw_data()
 
-    def load_data(self):
-        df = pl.read_csv("abc_titanic/data/raw.csv")
-        if self.drop_na:
-            return df.drop_nulls()
-        if self.num_samples is not None:
-            return df.sample(self.num_samples, seed=42)
-        return df
+    def load_raw_data(self):
+        return pl.read_csv("abc_titanic/data/raw.csv")
+    
+    def load_sample_data(self, num_samples: int):
+        return self.raw_data.sample(num_samples, seed=42)
 
 
 if __name__ == "__main__":
     dataset = Dataset()
-    raw_data = dataset.load_data()
+    raw_data = dataset.raw_data
     print(raw_data)
 
     sns.countplot(
